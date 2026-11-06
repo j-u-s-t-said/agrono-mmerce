@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style_rec.css">
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="stylesheet" href="style_modal.css">
+    <link rel="stylesheet" href="style_rec2.css">
+</head>
+<body>
+    <div class="ticket-container">
+        <h2>Ticket de Productos Seleccionados</h2>
+        <div id="ticket-content"></div>
+        <button onclick="window.print()" class="btn">Imprimir Ticket</button>
+        <button onclick="location.href='recibo.html'" class="logout">Volver</button>
+
+    </div>
+
+    <script>
+        const ticketData = JSON.parse(sessionStorage.getItem('ticketData') || '[]');
+
+        const ticketContent = document.getElementById('ticket-content');
+        ticketData.forEach(product => {
+            const item = document.createElement('div');
+            item.className = 'ticket-item';
+            item.innerHTML = `
+                <p>ID: ${product.id}</p>
+                <p>Nombre: ${product.nombre}</p>
+                <p>Precio: $${parseFloat(product.precio).toFixed(2)}</p>
+                <p>Cantidad: ${product.cantidad} ${product.unidad}</p>
+                <hr>
+            `;
+            ticketContent.appendChild(item);
+        });
+    </script>
+</body>
+</html>

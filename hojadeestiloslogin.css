@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("Imagenes/Agro.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 128, 0, 0.5); /* Color verde con opacidad */
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1; /* Para que el contenido del wrapper esté por encima del overlay */
+  width: 420px;
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.wrapper h1 {
+  margin: 20px;
+  text-align: center;
+  font-size: 36px;
+}
+
+.visit-counter {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.input-box {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-box label {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.input-box input {
+  width: 100%;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 40px;
+  font-size: 16px;
+  color: #fff;
+  padding: 0 20px;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.input-box ion-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+}
+
+.input-box .show-password {
+  cursor: pointer;
+  position: absolute;
+  right: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14.5px;
+}
+
+.remember-forgot a {
+  color: #4CAF50;
+}
+
+.btn {
+  width: 100%;
+  height: 45px;
+  background: #4CAF50;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #45a049;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.register-link p {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.register-link a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.reloj {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  border-radius: 30px;
+}
+
+.reloj h2 {
+  color: #333;
+  font-size: 20px;
+  text-decoration: blink;
+}
+
+@media (max-width: 800px) {
+  .overlay {
+    background-color: rgba(0, 128, 0, 0.5); /* Color verde con opacidad */
+  }
+
+  .reloj {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .wrapper {
+    width: 90%;
+    padding: 30px;
+  }
+}
+
+@media (min-width: 801px) {
+  .overlay {
+    background-color: rgba(0, 128, 0, 0.5); /* Color verde con opacidad */
+  }
+
+  .reloj {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+

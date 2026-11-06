@@ -1,0 +1,152 @@
+ 
+ @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;400;700&display=swap');
+
+ 
+ /* Estilos del modal */
+  #add-product-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro más pronunciado */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px; /* Bordes más redondeados */
+    width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra más suave */
+    position: relative;
+    transition: transform 0.3s ease; /* Transición para suavizar el movimiento */
+}
+
+.modal-content.show {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al mostrar */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    color: #999; /* Color del botón cerrar */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #333; /* Cambia de color al pasar el mouse */
+}
+
+/* Encabezado del formulario */
+.modal-content h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333; /* Color del título */
+    text-align: center;
+    border-bottom: 2px solid #4CAF50; /* Línea divisoria verde */
+    padding-bottom: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+/* Estilos del formulario */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #666; /* Color de las etiquetas */
+    font-size: 14px;
+    font-weight: bold; /* Negrita para mayor énfasis */
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px; /* Bordes redondeados */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4CAF50; /* Cambia color del borde al enfocar */
+    outline: none; /* Quitar el borde de enfoque predeterminado */
+}
+
+/* Botón */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50; /* Verde atractivo */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #45a049; /* Color al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de desplazamiento al pasar el mouse */
+}
+
+/* Mejoras adicionales */
+.btn:focus {
+    outline: none; /* Quitar el borde de enfoque predeterminado */
+}
+
+/* Añadir una ligera animación al aparecer el modal */
+#add-product-modal {
+    animation: fadeIn 0.5s;
+}
+#report-modal {
+    display: none;
+    animation: fadeIn 0.5s;
+}
+
+/* CSS para el modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija para overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Asegúrate que esté sobre otros elementos */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

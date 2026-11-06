@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pagina comercial y publicitaria.">
+    <meta name="keywords" content="Tienda, comercial, fertilizantes">
+    <title>Agronomex</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png"> 
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="home.html">
+                <img src="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <ul>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li>
+                    <a>Productos</a>
+                    <ul>
+                        <li><a href="product1.html">Agroraise</a></li>
+                        <li><a href="product2.html">VeintiZinc</a></li>
+                        <li><a href="product3.html">Cytostim</a></li>
+                        <li><a href="product4.html">Resin Oil</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="recibo.html">Compras</a></li>
+            </ul>
+        </nav>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </header>
+
+    <section class="main-title">
+        <h1>Agroraise</h1>
+    </section>
+
+    <main>
+        <section class="content-section">
+            <div class="content-box">
+                <h2>¿Que es?</h2>
+                <p>Es un Regulador de crecimiento tipo 1, con acción de enraizador y fertilizante de alto desempeño. Esta especializado en la estimulacion de la planta para la generacion y mantenimiento de raices, ademas del desarrollo de tallos y ramas fuertes.</p>
+            </div>
+            <div class="content-box">
+                <h2>Formula</h2>
+                <p>Posee una formula balanceada de nutrientes (N, P, Zn, Fe, Ca y Si) que fortalece y nutren a la planta, mas fitohormonas enraizadoras tipo auxinas que promueven la generacion del sistema radicular y mejoran la tasa de absorcion de nutrientes, contiene agentes quelatantes y acido fulvico que permiten una absorcion optima de los componentes de la formulación.</p>
+            </div>
+        </section>
+        <section class="content-section">
+            <div class="content-box3">
+                <h2>¡Compralo ya!</h2>
+                <p>La division celular es el proceso mediante el cual la planta genera celulas, tejidos y organos nuevos, cuando Agroraise es aplicado en las raices, estimula la division celular, propiciando la generacion de raices nuevas del tipo principal, secundario y pelos absorbentes, dependiendo del tipo de cultivo.</p>
+            </div>
+        </section>
+    </main>
+    
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Agronomex</h3>
+            <p>
+                Somos una empresa dedicada a la venta de fertilizantes y productos agrícolas. Nuestro compromiso es 
+                proporcionar productos de alta calidad que ayuden a transformar y mejorar el rendimiento de los cultivos.
+            </p>
+            <p>© 2023 Agronomex. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script>
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("show");
+        }
+    </script>
+</body>
+</html>

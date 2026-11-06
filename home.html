@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pagina comercial y publicitaria.">
+    <meta name="keywords" content="Tienda, comercial, fertilizantes">
+    <title>Agronomex</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png"> 
+</head>
+<body>
+    <!-- Mensaje emergente -->
+    <div id="popupMessage" class="popup-message">La página se ha cargado correctamente</div>
+
+    <header>
+        <div class="logo">
+            <a href="home.html">
+                <img src="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <ul>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li>
+                    <a>Productos</a>
+                    <ul>
+                        <li><a href="product1.html">Agroraise</a></li>
+                        <li><a href="product2.html">VeintiZinc</a></li>
+                        <li><a href="product3.html">Cytostim</a></li>
+                        <li><a href="product4.html">Resin Oil </a></li>
+                    </ul>
+                </li>
+                <li><a href="recibo.html">Compras</a></li>
+            </ul>
+        </nav>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <!-- Enlace que simula un botón de menú, al hacer clic se llama a la función toggleNav() -->
+            <i class="fa fa-bars"></i> <!-- Icono de barras (generalmente usado para menú) -->
+        </a>        
+    </header>
+
+    <section class="main-title">
+        <h1>AGRONOMEX</h1>
+        <p>Transformando el campo</p>
+    </section>
+
+    <main>
+        <section class="content-section">
+            <div class="content-box">
+                <h2>Producción</h2>
+                <p>Manejamos 4 lineas de Productos: 
+                Bioprotección, Bioestimulacion, Nutrientes Coadyuvantes.</p>
+            </div>
+            <div class="content-box">
+                <h2>Contactanos</h2>
+                <p> Correo: admon.agronomex@gmail.com
+                    Celular: (81)1229 3549     
+                </p>
+            </div>
+        </section>
+        <section class="content-section">
+            <div class="content-box3">
+                <h2>Redes Sociales</h2>
+                <p>Facebook: Agronomex Mx
+                    Instagram: @Agronomex_oficial
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Agronomex</h3>
+            <p>
+                Somos una empresa dedicada a la venta de fertilizantes y productos agrícolas. Nuestro compromiso es 
+                proporcionar productos de alta calidad que ayuden a transformar y mejorar el rendimiento de los cultivos.
+            </p>
+            <p>© 2023 Agronomex. Todos los derechos reservados.</p>
+                <button onclick="location.href='index.php'" class="logout">Salir</button> <!-- boton que nos redirige a la pagina de 'login.php' -->
+        </div>
+    </footer>
+    <script>
+        //funcion de navegacion(muestra los productos al pasar el cursor)
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("show");
+        }
+
+
+        
+        //Funcion de "Cargó Correctamente"
+        window.onload = function() {
+    // Selecciona el elemento con id "popupMessage"
+    var popupMessage = document.getElementById("popupMessage");
+
+    // Agrega la clase "show" para mostrar el mensaje emergente
+    popupMessage.classList.add("show");
+
+    // Después de 5000 milisegundos (5 segundos), oculta y luego elimina el mensaje emergente
+    setTimeout(function() {
+        popupMessage.classList.add("hide"); // Agrega la clase "hide" para ocultar el mensaje
+        setTimeout(function() {
+            popupMessage.style.display = "none"; // Establece el estilo "display: none" para remover el mensaje del DOM
+        }, 500); // Espera 500 milisegundos antes de eliminar completamente el mensaje
+    }, 5000); // Espera 5000 milisegundos (5 segundos) antes de iniciar la ocultación del mensaje
+};
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;400;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.main-title {
+    position: relative;
+    background-image:url("Imagenes/fbd071a2-cfc2-4d31-81c9-73a813e58978.jpg");
+    background-size: cover; /* Ajustar la imagen al tamaño del contenedor */
+    background-repeat: no-repeat; /* Evitar que la imagen se repita */
+    color: white; /* Color del texto */
+    text-align: center; /* Centrado del texto */
+    padding: 70px; /* Espaciado alrededor del texto */
+    font-size: 3em; /* Tamaño de fuente */
+}
+
+.main-title::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 128, 0, 0.474); /* Capa verde con transparencia */
+    z-index: 1;
+}
+
+.main-title h1,
+.main-title p {
+    position: relative;
+    z-index: 2;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.nav-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links ul li {
+    position: relative;
+    margin: 0 10px;
+}
+
+.nav-links ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 16px;
+    display: block;
+    transition: border-color 0.3s ease, color 0.3s ease;
+    padding-bottom: 4px;
+    border-bottom: 7px solid transparent;
+}
+
+.nav-links ul li a:hover {
+    border-radius: 5px;
+    border-bottom-color: #ffffff;
+}
+
+.nav-links ul li ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-radius: 10px;
+    background-color: #333;
+    padding: 10px 0;
+    list-style: none;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.nav-links ul li:hover ul {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-links ul li ul li {
+    width: 200px;
+}
+
+.nav-links ul li ul li a {
+    padding: 10px 15px;
+    color: white;
+    border-bottom: none;
+    background-color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links ul li ul li a:hover {
+    background-color: #555;
+}
+
+.icon {
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+    .nav-links ul {
+        display: none;
+        flex-direction: column;
+    }
+
+    .nav-links ul.show {
+        display: flex;
+    }
+
+    .icon {
+        display: block;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+}
+
+.content-section {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content-box {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 700px; /* Opcional: ajusta el ancho máximo según tus necesidades */
+}
+
+.content-box3 {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin: 10px auto; /* Centra la caja horizontalmente */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 300px; /* Opcional: ajusta el ancho máximo según tus necesidades */
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-content h3 {
+    margin-top: 0;
+}
+
+.footer-content p {
+    margin: 10px 0;
+}
+
+.popup-message {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 15px 30px;
+    border-radius: 15px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.popup-message.show {
+    display: block;
+    opacity: 1;
+}
+
+.popup-message.hide {
+    opacity: 0;
+}
+
+.logout {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #d9534f;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout:hover {
+    background-color: #c9302c;
+}
+

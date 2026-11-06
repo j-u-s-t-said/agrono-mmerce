@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pagina comercial y publicitaria.">
+    <meta name="keywords" content="Tienda, comercial, fertilizantes">
+    <title>Agronomex</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png"> 
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="home.html">
+                <img src="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png" alt="Logo">
+            </a>
+        </div>
+        <nav class="nav-links" id="navLinks">
+            <ul>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li>
+                    <a>Productos</a>
+                    <ul>
+                        <li><a href="product1.html">Agroraise</a></li>
+                        <li><a href="product2.html">VeintiZinc</a></li>
+                        <li><a href="product3.html">Cytostim</a></li>
+                        <li><a href="product4.html">Resin Oil</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="recibo.html">Compras</a></li>
+            </ul>
+        </nav>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </header>
+
+    <section class="main-title">
+        <h1>¿QUIENES SOMOS?</h1>
+        <p>AGRONOMEX</p>
+    </section>
+
+    <main>
+        <section class="content-section">
+            <div class="content-box">
+                <h2>Agronomex</h2>
+                <p>Somos un Laboratorio de Desarrollo de tecnologias de nutrición, bioestimulacion y bioprotección de cultivos agricolas, creado desde 2019, por expertos en ciencias agricolas y agronegocios.</p>
+            </div>
+            <div class="content-box">
+                <h2>Desarrollo</h2>
+                <p>Desarrollamos productos en 3 rutas tecnologicas: Nutricion, Bioestimulacion y Bioproteccion.</p>
+            </div>
+        </section>
+        <section class="content-section">
+            <div class="content-box3">
+                <h2>Sencillos</h2>
+                <p>Lo hacemos sencillo: nuestros productos son faciles de aplicar y son de bajo impacto ambiental.</p>
+            </div>
+        </section>
+    </main>
+    
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Agronomex</h3>
+            <p>
+                Somos una empresa dedicada a la venta de fertilizantes y productos agrícolas. Nuestro compromiso es 
+                proporcionar productos de alta calidad que ayuden a transformar y mejorar el rendimiento de los cultivos.
+            </p>
+            <p>© 2023 Agronomex. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script>
+        function toggleNav() {
+            var navLinks = document.getElementById("navLinks");
+            navLinks.classList.toggle("show");
+        }
+    
+
+
+    </script>
+</body>
+</html>
