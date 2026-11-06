@@ -1,39 +1,645 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style_rec.css">
-    <link rel="stylesheet" href="home_style.css">
-    <link rel="stylesheet" href="style_modal.css">
-    <link rel="stylesheet" href="style_rec2.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agrono-mmerce - Confirmación y Envío</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Estilos de la página original -->
+  <link rel="stylesheet" href="style_rec.css">
+  <link rel="stylesheet" href="home_style.css">
+  <link rel="stylesheet" href="style_modal.css">
+  <link rel="stylesheet" href="style_rec2.css">
+  
+  <!-- Librería JsBarcode para el código de barras OXXO -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+  <style>
+    :root {
+      --header-bg: #2b2e2b;       /* Gris oscuro estilo navbar Agronomex */
+      --brand-green: #388e3c;     /* Verde agro */
+      --dark-green: #1b5e20;      /* Verde fuerte */
+      --light-green: #e8f5e9;     /* Fondo suave */
+      --bg-color: #f4f6f8;        /* Fondo gris limpio */
+      --card-bg: #ffffff;
+      --text-dark: #212121;
+      --text-muted: #666666;
+      --border-color: #dddddd;
+      --oxxo-red: #d32f2f;
+      --paypal-blue: #0070ba;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      padding-bottom: 50px;
+    }
+
+    /* Encabezado Agronomex */
+    .agronomex-navbar {
+      background-color: var(--header-bg);
+      color: #ffffff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .agronomex-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .agronomex-brand h1 {
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .agronomex-brand span {
+      font-size: 0.85rem;
+      color: #a5d6a7;
+    }
+
+    .checkout-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .checkout-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 25px 30px;
+      margin-bottom: 25px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .section-head {
+      font-size: 1.15rem;
+      color: var(--dark-green);
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--brand-green);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .field input, .field select, .field textarea {
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .field input:focus, .field select:focus, .field textarea:focus {
+      border-color: var(--brand-green);
+      box-shadow: 0 0 0 3px rgba(56, 142, 60, 0.15);
+    }
+
+    /* Opciones de Métodos de Pago */
+    .pay-methods {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .pay-option {
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #fafafa;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pay-option:hover {
+      border-color: var(--brand-green);
+    }
+
+    .pay-option.active {
+      border-color: var(--dark-green);
+      background-color: var(--light-green);
+      font-weight: bold;
+      color: var(--dark-green);
+    }
+
+    .pay-panel {
+      display: none;
+      padding: 18px;
+      background: #fafafa;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .pay-panel.active {
+      display: block;
+    }
+
+    /* Resumen de Orden */
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .order-table th, .order-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 0.9rem;
+    }
+
+    .order-totals {
+      margin-top: 15px;
+      border-top: 2px solid #333;
+      padding-top: 12px;
+    }
+
+    .row-total {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .row-total.final {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--dark-green);
+      margin-top: 10px;
+    }
+
+    /* Bloque OXXO en Ticket */
+    .oxxo-ticket-box {
+      background: #fff8f8;
+      border: 2px dashed var(--oxxo-red);
+      border-radius: 8px;
+      padding: 18px;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .oxxo-tag {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--oxxo-red);
+      margin-bottom: 4px;
+    }
+
+    .barcode-wrapper {
+      margin: 15px 0 8px 0;
+    }
+
+    .btn-agron {
+      width: 100%;
+      background: var(--dark-green);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-agron:hover {
+      background: var(--brand-green);
+    }
+
+    .badge-envio {
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    @media print {
+      .no-print, .agronomex-navbar {
+        display: none !important;
+      }
+      #step-2-ticket {
+        display: block !important;
+      }
+      body {
+        background: #fff;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .span-2 { grid-column: span 1; }
+      .pay-methods { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="ticket-container">
-        <h2>Ticket de Productos Seleccionados</h2>
-        <div id="ticket-content"></div>
-        <button onclick="window.print()" class="btn">Imprimir Ticket</button>
-        <button onclick="location.href='recibo.html'" class="logout">Volver</button>
 
+  <!-- Barra Superior Estilo Agronomex -->
+  <div class="agronomex-navbar">
+    <div class="agronomex-brand">
+      <i class="fas fa-seedling" style="color: #81c784; font-size: 1.5rem;"></i>
+      <div>
+        <h1>AGRONO-MMERCE</h1>
+        <span>Transformando el campo</span>
+      </div>
+    </div>
+    <div style="font-size: 0.85rem; color: #ccc;">
+      <i class="fas fa-shield-alt"></i> Compra Segura
+    </div>
+  </div>
+
+  <div class="checkout-container">
+
+    <!-- ================= PASO 1: FORMULARIO DE ENVÍO Y PAGO ================= -->
+    <div id="step-1-checkout" class="no-print">
+      
+      <form id="agronomex-form" onsubmit="generarOrdenFinal(event)">
+        <!-- DATOS DE ENVÍO Y RUTA AGRO -->
+        <div class="checkout-card">
+          <div class="section-head">
+            <span><i class="fas fa-truck-ramp-box"></i> 1. Dirección de Entrega y Envío</span>
+            <span class="badge-envio"><i class="fas fa-shipping-fast"></i> Envíos a todo México</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="cli-nombre">Nombre(s) del destinatario *</label>
+              <input type="text" id="cli-nombre" placeholder="Ej. Jorge Alberto" required>
+            </div>
+            <div class="field">
+              <label for="cli-apellidos">Apellidos *</label>
+              <input type="text" id="cli-apellidos" placeholder="Ej. Vázquez Rojas" required>
+            </div>
+            <div class="field span-2">
+              <label for="cli-direccion">Calle, Número exterior e interior *</label>
+              <input type="text" id="cli-direccion" placeholder="Ej. Av. Miguel Hidalgo #402" required>
+            </div>
+            <div class="field">
+              <label for="cli-colonia">Colonia / Ejido / Rancho *</label>
+              <input type="text" id="cli-colonia" placeholder="Ej. Centro / Rancho San José" required>
+            </div>
+            <div class="field">
+              <label for="cli-cp">Código Postal *</label>
+              <input type="text" id="cli-cp" maxlength="5" placeholder="66600" required>
+            </div>
+            <div class="field">
+              <label for="cli-ciudad">Ciudad / Municipio *</label>
+              <input type="text" id="cli-ciudad" placeholder="Ej. Apodaca / Monterrey" required>
+            </div>
+            <div class="field">
+              <label for="cli-estado">Estado *</label>
+              <select id="cli-estado" required>
+                <option value="">Selecciona tu estado</option>
+                <option value="Nuevo León" selected>Nuevo León</option>
+                <option value="Coahuila">Coahuila</option>
+                <option value="Tamaulipas">Tamaulipas</option>
+                <option value="Guanajuato">Guanajuato</option>
+                <option value="Jalisco">Jalisco</option>
+                <option value="Sinaloa">Sinaloa</option>
+                <option value="Veracruz">Veracruz</option>
+                <option value="Otro">Otro Estado...</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="cli-telefono">Teléfono de Contacto (Para la paquetería) *</label>
+              <input type="tel" id="cli-telefono" maxlength="10" placeholder="Ej. 81 1234 5678" required>
+            </div>
+            <div class="field">
+              <label for="cli-correo">Correo Electrónico (Para recibir rastreo) *</label>
+              <input type="email" id="cli-correo" placeholder="correo@ejemplo.com" required>
+            </div>
+            <div class="field span-2">
+              <label for="cli-notas">Referencias o notas de entrega para el chofer (Opcional)</label>
+              <textarea id="cli-notas" rows="2" placeholder="Ej. Dejar cerca de la bodega principal o portón verde..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉTODOS DE PAGO -->
+        <div class="checkout-card">
+          <div class="section-head">
+            <span><i class="fas fa-wallet"></i> 2. Forma de Pago</span>
+          </div>
+
+          <div class="pay-methods">
+            <div class="pay-option active" id="btn-pay-oxxo" onclick="seleccionarPago('oxxo')">
+              <i class="fas fa-store" style="font-size: 1.3rem; color: var(--oxxo-red);"></i>
+              <span>OXXO Pay</span>
+            </div>
+            <div class="pay-option" id="btn-pay-card" onclick="seleccionarPago('tarjeta')">
+              <i class="fas fa-credit-card" style="font-size: 1.3rem; color: #2e7d32;"></i>
+              <span>Tarjeta</span>
+            </div>
+            <div class="pay-option" id="btn-pay-paypal" onclick="seleccionarPago('paypal')">
+              <i class="fab fa-paypal" style="font-size: 1.3rem; color: var(--paypal-blue);"></i>
+              <span>PayPal</span>
+            </div>
+          </div>
+
+          <!-- Páneles según selección -->
+          <div id="panel-oxxo" class="pay-panel active">
+            <p style="font-size: 0.9rem; color: #444; line-height: 1.4;">
+              <i class="fas fa-barcode"></i> Se generará una ficha digital con un **código de barras de 14 dígitos**. Podrás acudir a cualquier tienda OXXO para liquidar en efectivo tu insumo agrícola.
+            </p>
+          </div>
+
+          <div id="panel-tarjeta" class="pay-panel">
+            <div class="grid-2">
+              <div class="field span-2">
+                <label>Número de Tarjeta</label>
+                <input type="text" id="card-num" maxlength="16" placeholder="4555 0000 0000 0000">
+              </div>
+              <div class="field span-2">
+                <label>Nombre del Titular</label>
+                <input type="text" id="card-name" placeholder="Como aparece en la tarjeta">
+              </div>
+              <div class="field">
+                <label>Vencimiento</label>
+                <input type="text" id="card-exp" maxlength="5" placeholder="MM/AA">
+              </div>
+              <div class="field">
+                <label>CVV</label>
+                <input type="password" id="card-cvv" maxlength="4" placeholder="123">
+              </div>
+            </div>
+          </div>
+
+          <div id="panel-paypal" class="pay-panel">
+            <p style="font-size: 0.9rem; color: #333;">
+              <i class="fab fa-paypal" style="color:var(--paypal-blue);"></i> Al confirmar, se procesará tu orden mediante el sistema seguro de PayPal.
+            </p>
+          </div>
+
+          <button type="submit" class="btn-agron" style="margin-top:20px;">
+            <i class="fas fa-check-circle"></i> Confirmar Datos y Generar Ticket
+          </button>
+        </div>
+      </form>
     </div>
 
-    <script>
-        const ticketData = JSON.parse(sessionStorage.getItem('ticketData') || '[]');
 
-        const ticketContent = document.getElementById('ticket-content');
-        ticketData.forEach(product => {
-            const item = document.createElement('div');
-            item.className = 'ticket-item';
-            item.innerHTML = `
-                <p>ID: ${product.id}</p>
-                <p>Nombre: ${product.nombre}</p>
-                <p>Precio: $${parseFloat(product.precio).toFixed(2)}</p>
-                <p>Cantidad: ${product.cantidad} ${product.unidad}</p>
-                <hr>
-            `;
-            ticketContent.appendChild(item);
+    <!-- ================= PASO 2: TICKET GENERADO CON CÓDIGO DE BARRAS ================= -->
+    <div id="step-2-ticket" style="display: none;">
+      
+      <div class="checkout-card" style="border-top: 5px solid var(--dark-green);">
+        <div style="text-align: center; padding-bottom: 15px; border-bottom: 2px dashed #ccc;">
+          <h2 style="color: var(--dark-green);"><i class="fas fa-receipt"></i> Ticket de Compra - AGRONO-MMERCE</h2>
+          <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Orden #AGR-<span id="out-orden-id"></span> | Fecha: <span id="out-fecha"></span></p>
+        </div>
+
+        <!-- Confirmación de Datos de Envío -->
+        <div style="background: #f0f7ff; border-left: 4px solid #0288d1; padding: 12px 15px; border-radius: 4px; margin: 20px 0;">
+          <h4 style="margin-bottom: 6px; color: #01579b;"><i class="fas fa-map-marker-alt"></i> Destino del Envío</h4>
+          <p style="font-size: 0.9rem; margin: 2px 0;"><strong>Destinatario:</strong> <span id="out-nombre"></span></p>
+          <p style="font-size: 0.9rem; margin: 2px 0;"><strong>Dirección:</strong> <span id="out-direccion"></span></p>
+          <p style="font-size: 0.9rem; margin: 2px 0;"><strong>Ubicación:</strong> <span id="out-ubicacion"></span></p>
+          <p style="font-size: 0.9rem; margin: 2px 0;"><strong>Teléfono:</strong> <span id="out-telefono"></span></p>
+          <p style="font-size: 0.85rem; color: #555; margin-top: 4px;" id="out-notas-box"></p>
+        </div>
+
+        <!-- Tabla de Productos -->
+        <h4><i class="fas fa-boxes-packing"></i> Productos Seleccionados</h4>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>Cant.</th>
+              <th>Producto</th>
+              <th style="text-align: right;">Precio</th>
+              <th style="text-align: right;">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="ticket-content">
+            <!-- Se carga dinámicamente de sessionStorage -->
+          </tbody>
+        </table>
+
+        <!-- Totales -->
+        <div class="order-totals">
+          <div class="row-total">
+            <span>Subtotal de productos:</span>
+            <span id="subtotal-val">$0.00</span>
+          </div>
+          <div class="row-total">
+            <span>Flete / Envío a domicilio:</span>
+            <span id="envio-val">$50.00</span>
+          </div>
+          <div class="row-total final">
+            <span>Total a Pagar:</span>
+            <span id="total-val">$0.00</span>
+          </div>
+        </div>
+
+        <!-- Bloque OXXO PAY (Sólo si eligió OXXO) -->
+        <div id="ticket-oxxo-block" class="oxxo-ticket-box">
+          <div class="oxxo-tag"><i class="fas fa-store"></i> OXXO PAY</div>
+          <p style="font-size: 0.85rem; color: #444;">Ficha Digital de Pago en Venta / Caja OXXO</p>
+          
+          <div class="barcode-wrapper">
+            <svg id="oxxo-barcode"></svg>
+          </div>
+
+          <p style="font-size: 0.8rem; color: #666;">Muestra esta pantalla o imprime el ticket para efectuar tu pago en caja.</p>
+        </div>
+
+        <!-- Bloque Tarjeta / Paypal (Si eligió otro) -->
+        <div id="ticket-alt-block" style="display:none; background: #e8f5e9; padding: 15px; border-radius: 8px; text-align: center; margin: 20px 0; border: 1px solid #c8e6c9;">
+          <h4 style="color: var(--dark-green);"><i class="fas fa-check-circle"></i> Método Confirmado: <span id="out-metodo-pago"></span></h4>
+          <p style="font-size: 0.85rem; color: #444; margin-top: 4px;">Tu pago ha sido registrado. Recibirás en tu correo los datos de rastreo de tu paquete.</p>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="no-print" style="display: flex; gap: 10px; margin-top: 25px;">
+          <button onclick="window.print()" class="btn-agron" style="background:#388e3c;">
+            <i class="fas fa-print"></i> Imprimir Ticket
+          </button>
+          <button onclick="location.href='recibo.html'" class="btn-agron" style="background:#757575;">
+            <i class="fas fa-arrow-left"></i> Volver a Tienda
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let metodoSeleccionado = 'oxxo';
+
+    function seleccionarPago(metodo) {
+      metodoSeleccionado = metodo;
+      
+      // Activar botón visual
+      document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+      document.getElementById(`btn-pay-${metodo}`).classList.add('active');
+
+      // Activar panel
+      document.querySelectorAll('.pay-panel').forEach(el => el.classList.remove('active'));
+      document.getElementById(`panel-${metodo}`).classList.add('active');
+
+      // Requerir tarjeta sólo si es tarjeta
+      const inputsCard = document.querySelectorAll('#panel-tarjeta input');
+      if (metodo === 'tarjeta') {
+        inputsCard.forEach(i => i.setAttribute('required', 'true'));
+      } else {
+        inputsCard.forEach(i => i.removeAttribute('required'));
+      }
+    }
+
+    function parsearNumero(val) {
+      if (typeof val === 'number') return val;
+      if (!val) return 0;
+      const limpio = val.toString().replace(/[^0-9.]/g, "");
+      return parseFloat(limpio) || 0;
+    }
+
+    function generarOrdenFinal(event) {
+      event.preventDefault();
+
+      // 1. Tomar datos de envío
+      const nombre = document.getElementById('cli-nombre').value + ' ' + document.getElementById('cli-apellidos').value;
+      const direccion = document.getElementById('cli-direccion').value + ', Col. ' + document.getElementById('cli-colonia').value;
+      const ubicacion = document.getElementById('cli-ciudad').value + ', ' + document.getElementById('cli-estado').value + ' (C.P. ' + document.getElementById('cli-cp').value + ')';
+      const telefono = document.getElementById('cli-telefono').value;
+      const notas = document.getElementById('cli-notas').value;
+
+      // Asignar al Ticket
+      document.getElementById('out-nombre').textContent = nombre;
+      document.getElementById('out-direccion').textContent = direccion;
+      document.getElementById('out-ubicacion').textContent = ubicacion;
+      document.getElementById('out-telefono').textContent = telefono;
+      
+      if (notas.trim() !== '') {
+        document.getElementById('out-notas-box').innerHTML = `<strong>Notas para el repartidor:</strong> ${notas}`;
+      } else {
+        document.getElementById('out-notas-box').innerHTML = '';
+      }
+
+      // Folio y Fecha
+      document.getElementById('out-orden-id').textContent = Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('out-fecha').textContent = new Date().toLocaleDateString('es-MX', {
+        day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+
+      // 2. Cargar Productos de sessionStorage
+      let ticketData = [];
+      try {
+        ticketData = JSON.parse(sessionStorage.getItem('ticketData') || '[]');
+      } catch (e) {
+        console.error("Error al leer sessionStorage:", e);
+      }
+
+      const ticketContent = document.getElementById('ticket-content');
+      ticketContent.innerHTML = '';
+      let subtotalGeneral = 0;
+      const costoEnvio = 50.00;
+
+      if (!Array.isArray(ticketData) || ticketData.length === 0) {
+        ticketContent.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 15px; color:#d32f2f;">No hay productos registrados en la sesión.</td></tr>`;
+      } else {
+        ticketData.forEach(prod => {
+          const precio = parsearNumero(prod.precio);
+          const subtotalItem = precio; // Precio directo asignado
+          subtotalGeneral += subtotalItem;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${prod.cantidad || 1} ${prod.unidad || ''}</td>
+            <td><strong>${prod.nombre || 'Producto'}</strong><br><small style="color:#777">ID: ${prod.id || 'N/A'}</small></td>
+            <td style="text-align: right;">$${precio.toFixed(2)}</td>
+            <td style="text-align: right;">$${subtotalItem.toFixed(2)}</td>
+          `;
+          ticketContent.appendChild(tr);
         });
-    </script>
+      }
+
+      // Totales
+      const totalPagar = subtotalGeneral + (ticketData.length > 0 ? costoEnvio : 0);
+      document.getElementById('subtotal-val').textContent = `$${subtotalGeneral.toFixed(2)}`;
+      document.getElementById('envio-val').textContent = ticketData.length > 0 ? `$${costoEnvio.toFixed(2)}` : '$0.00';
+      document.getElementById('total-val').textContent = `$${totalPagar.toFixed(2)}`;
+
+      // 3. Manejo de pantalla según Método de Pago
+      if (metodoSeleccionado === 'oxxo') {
+        document.getElementById('ticket-oxxo-block').style.display = 'block';
+        document.getElementById('ticket-alt-block').style.display = 'none';
+
+        // Generar Código de Barras
+        const refOxxo = "9300" + Math.floor(1000000000 + Math.random() * 9000000000);
+        try {
+          if (window.JsBarcode) {
+            JsBarcode("#oxxo-barcode", refOxxo, {
+              format: "CODE128",
+              lineColor: "#212121",
+              width: 2,
+              height: 55,
+              displayValue: true,
+              fontSize: 14,
+              text: `${refOxxo.substring(0,4)}-${refOxxo.substring(4,8)}-${refOxxo.substring(8,12)}-${refOxxo.substring(12,14)}`
+            });
+          }
+        } catch (err) {
+          console.error("Error al renderizar JsBarcode:", err);
+        }
+
+      } else {
+        document.getElementById('ticket-oxxo-block').style.display = 'none';
+        document.getElementById('ticket-alt-block').style.display = 'block';
+        document.getElementById('out-metodo-pago').textContent = metodoSeleccionado === 'tarjeta' ? 'Tarjeta de Crédito / Débito' : 'PayPal';
+      }
+
+      // REDIRECCIÓN INTERNA (Oculta formulario y muestra ticket)
+      document.getElementById('step-1-checkout').style.display = 'none';
+      document.getElementById('step-2-ticket').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>

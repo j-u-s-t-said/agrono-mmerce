@@ -1,16 +1,285 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleccionar Fertilizantes</title>
+    <title>Agronomex - Catálogo y Carrito</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style_rec.css">
     <link rel="stylesheet" href="home_style.css">
     <link rel="stylesheet" href="style_modal.css">
     <link rel="stylesheet" href="style_rec2.css">
     <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png">
+    
+    <style>
+        :root {
+            --header-bg: #2b2e2b;
+            --brand-green: #388e3c;
+            --dark-green: #1b5e20;
+            --light-green: #e8f5e9;
+            --card-bg: rgba(255, 255, 255, 0.95); /* Fondo translúcido elegante */
+            --text-dark: #212121;
+            --text-muted: #666666;
+            --border-color: #dddddd;
+        }
+
+        body {
+            /* Fondo con imagen de campo y capa verde semitransparente encima */
+            background: linear-gradient(rgba(27, 94, 32, 0.65), rgba(46, 125, 50, 0.75)), 
+                        url('Imagenes/Agro.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-dark);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Contenedor Principal Distribución Catálogo y Carrito */
+        .shop-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 25px;
+        }
+
+        .section-box {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .box-title {
+            font-size: 1.3rem;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--brand-green);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Catálogo Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        /* Tarjeta de Producto con efecto Elevación al pasar el cursor (Vista previa) */
+        .product-card {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+            border-color: var(--brand-green);
+        }
+
+        .product-img-container {
+            width: 100%;
+            height: 130px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-card h4 {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .product-card .price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        /* Selectores de Presentación y Cantidad (+ y -) */
+        .selector-group {
+            margin-bottom: 10px;
+        }
+
+        .selector-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .selector-group select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f1f8e9;
+            border-radius: 6px;
+            padding: 4px 10px;
+            margin-bottom: 12px;
+        }
+
+        .quantity-control button {
+            background: var(--dark-green);
+            color: #fff;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-control button:hover {
+            background: var(--brand-green);
+        }
+
+        .quantity-control span {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .btn-add-cart {
+            background-color: var(--dark-green);
+            color: #fff;
+            border: none;
+            padding: 9px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .btn-add-cart:hover {
+            background-color: var(--brand-green);
+        }
+
+        /* Carrito Fijo en Sección Lateral */
+        .cart-container-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: fit-content;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .btn-remove {
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+        }
+
+        .cart-total-section {
+            margin-top: 20px;
+            border-top: 2px solid #333;
+            padding-top: 12px;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--dark-green);
+            margin-bottom: 15px;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            background-color: #ff8f00;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-checkout:hover {
+            background-color: #ffa000;
+        }
+
+        .empty-cart-msg {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .shop-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+
+    <!-- Barra de Navegación Original Conservada -->
     <header>
         <div class="logo">
             <a href="home.html">
@@ -37,434 +306,262 @@
         </a>
     </header>
 
-    <div class="overlay">
-        <div class="header">
-            <img src="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png" alt="Fertilizantes">
-            <h1>Consultar Fertilizantes</h1>
-            <div class="refresh-button">
-                <button onclick="location.reload();">
-                    <i class="fas fa-sync-alt"></i>
+    <!-- Contenedor Principal: Catálogo y Carrito Fijo -->
+    <div class="shop-container">
+        
+        <!-- Izquierda: Catálogo -->
+        <div class="section-box">
+            <h2 class="box-title"><i class="fas fa-seedling"></i> Bienvenido!, Este es el Catálogo de Fertilizantes</h2>
+            <div id="no-record-message" class="empty-cart-msg" style="display: none;">No hay productos disponibles.</div>
+            <div class="products-grid" id="product-list">
+                <!-- Se cargan dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Derecha: Carrito Fijo -->
+        <div class="section-box cart-container-box">
+            <div>
+                <h2 class="box-title"><i class="fas fa-shopping-cart"></i> Tu Carrito (<span id="cart-counter">0</span>)</h2>
+                <div id="cart-items-container" style="max-height: 320px; overflow-y: auto;">
+                    <div class="empty-cart-msg">Tu carrito está vacío</div>
+                </div>
+            </div>
+
+            <div class="cart-total-section">
+                <div class="cart-total-row">
+                    <span>Total estimado:</span>
+                    <span id="cart-total-val">$0.00</span>
+                </div>
+                <button class="btn-checkout" onclick="procederAlTicket()">
+                    <i class="fas fa-cash-register"></i> Proceder al Pago y Envío
                 </button>
             </div>
-            
         </div>
 
-        <div class="search-container">
-            <input type="text" id="search-nombre" placeholder="Buscar por nombre">
-            <input type="number" id="search-precio" placeholder="Buscar por precio" step="0.01">
-            <select id="search-unidad">
-                <option value="">Filtrar por unidad</option>
-                <option value="kilos">Kilos</option>
-                <option value="litros">Litros</option>
-            </select>
-            <button class="_btn-1" id="search-btn">Buscar</button>
-        </div>
-
-        <!-- Botones para agregar y eliminar productos -->
-        <div class="actions">
-            <button class="btn" id="add-product-btn">Agregar Producto</button>
-            <button class="btn" id="delete-products-btn">Eliminar Productos</button>
-            <button class="btn" id="report-btn">Generar Reporte</button>
-        </div>
-
-        <div id="report-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="close-report-modal">&times;</span>
-            <h3>Seleccionar Productos para Reporte</h3>
-            <div id="report-product-list"></div>
-            <button class="btn" id="generate-ticket-btn">Generar Ticket</button>
-        </div>
     </div>
 
-        <!-- Formulario flotante emergente para agregar nuevos productos -->
-        <div id="add-product-modal">
-            <div class="modal-content">
-                <span class="close-btn" id="close-modal">&times;</span>
-                <h3>Añadir Nuevo Producto</h3>
-                <div class="form-group">
-                    <label for="nombre">Nombre del producto:</label>
-                    <input type="text" id="nombre" name="nombre" required>
-                </div>
-            
-                <div class="form-group">
-                    <label for="precio">Precio:</label>
-                    <input type="number" step="0.01" id="precio" name="precio" required>
-                </div>
-            
-                <div class="form-group">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" required>
-                </div>
-            
-                <div class="form-group">
-                    <label for="unidad">Unidad:</label>
-                    <select id="unidad" name="unidad">
-                        <option value="kilos">Kilos</option>
-                        <option value="litros">Litros</option>
-                    </select>
-                </div>
-                <button class="btn" onclick="addProduct()">Registrar Producto</button>
-            </div>
-        </div>
-        
-        <!-- Mensaje de no hay registros -->
-        <div id="no-record-message">No hay ningún registro</div>
-
-        <!-- Lista de productos -->
-        <div class="product-list" id="product-list">
-            <!-- Los productos se cargarán aquí mediante JavaScript -->
-        </div>
-
-        <!-- Botón para confirmar eliminación de productos seleccionados -->
-        <div class="actions" id="delete-confirmation" style="display:none;">
-            <button class="btn" id="confirm-delete-btn" onclick="confirmDeleteProducts()">Confirmar Eliminación</button>
-        </div>
-    </div>
-
-    <footer class="footer">
+    <!-- Pie de página original -->
+    <footer class="footer" style="margin-top: 40px; background: rgba(30,30,30,0.9); color: #fff;">
         <div class="footer-content">
-            <h3>Agronomex</h3>
+            <h3>AGRONO-MMERCE</h3>
             <p>
                 Somos una empresa dedicada a la venta de fertilizantes y productos agrícolas. Nuestro compromiso es 
                 proporcionar productos de alta calidad que ayuden a transformar y mejorar el rendimiento de los cultivos.
             </p>
-            <p>© 2023 Agronomex. Todos los derechos reservados.</p>
+            <p>© 2023 AGRONO-MMERCE. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- JavaScript para manejar las funcionalidades -->
     <script>
-        let products = []; // Array para almacenar los productos
+        let carrito = [];
 
-        // Mostrar/ocultar formulario para agregar producto (modal emergente)
-        document.getElementById('add-product-btn').onclick = function() {
-        limpiarFormulario();                                                        // Asegúrate de que el formulario esté limpio
-        const addButton = document.querySelector('#add-product-modal .btn');
-        addButton.innerText = 'Registrar Producto';                                 // Cambia el texto del botón
-        addButton.onclick = function() { addProduct(); };                           // Cambia la acción del botón a agregar
-        document.getElementById('add-product-modal').style.display = 'flex';        // Mostrar modal
-        };
-
-        document.getElementById('close-modal').onclick = function() {
-        document.getElementById('add-product-modal').style.display = 'none'; // Cerrar modal
-        resetAddButton(); // Reiniciar botón de agregar
-        };
-
-        document.getElementById('report-btn').onclick = function() {
-            openReportModal();
-        };
-
-        document.getElementById('close-report-modal').onclick = function() {
-            document.getElementById('report-modal').style.display = 'none';
-        }; 
-        
-        function openReportModal() {
-            const modalList = document.getElementById('report-product-list');
-            modalList.innerHTML = '';
-            
-            Array.from(products).forEach((product, index) => {
-                const nombre = product.getElementsByTagName('nombre')[0].textContent;
-                
-                const item = document.createElement('div');
-                item.className = 'report-item';
-                item.innerHTML = `
-                    <label>
-                        <input type="checkbox" id="report-product-${index}" data-index="${index}">
-                        ${nombre}
-                    </label>
-                `;
-                modalList.appendChild(item);
-            });
-
-            document.getElementById('report-modal').style.display = 'flex';
+        function toggleNav() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
         }
 
-        document.getElementById('generate-ticket-btn').onclick = function() {
-            selectedProducts = Array.from(document.querySelectorAll('#report-product-list input[type="checkbox"]:checked'))
-                .map(checkbox => parseInt(checkbox.getAttribute('data-index')));
-            
-            if (selectedProducts.length > 0) {
-                const ticketData = selectedProducts.map(index => {
-                    const product = products[index];
-                    return {
-                        id: product.getElementsByTagName('id')[0].textContent,
-                        nombre: product.getElementsByTagName('nombre')[0].textContent,
-                        precio: product.getElementsByTagName('precio')[0].textContent,
-                        cantidad: product.getElementsByTagName('cantidad')[0].textContent,
-                        unidad: product.getElementsByTagName('unidad')[0].textContent,
-                    };
-                });
-
-                sessionStorage.setItem('ticketData', JSON.stringify(ticketData));
-                window.location.href = 'ticket.html';
-            } else {
-                alert('Seleccione al menos un producto.');
-            }
-        };
-
-
-function limpiarFormulario() {
-    document.getElementById('nombre').value = '';
-    document.getElementById('precio').value = '';
-    document.getElementById('cantidad').value = '';
-    document.getElementById('unidad').value = 'kilos';
-}
-function resetAddButton() {
-    const addButton = document.querySelector('#add-product-modal .btn');
-    addButton.innerText = 'Registrar Producto'; // Restablecer texto
-    addButton.onclick = addProduct; // Volver a vincular la función original
-}
-
-
-        // Cargar productos desde la base de datos usando XML
         function cargarProductos() {
             fetch('obtener_productos.php')
             .then(response => response.text())
             .then(str => {
                 const parser = new DOMParser();
                 const xml = parser.parseFromString(str, "application/xml");
-                products = xml.getElementsByTagName('producto');
+                const availableProducts = xml.getElementsByTagName('producto');
                 const listaProductos = document.getElementById('product-list');
                 const noRecordMessage = document.getElementById('no-record-message');
 
                 listaProductos.innerHTML = '';
 
-                if (products.length === 0) {
-                    noRecordMessage.style.display = 'block'; // Mostrar mensaje si no hay registros
+                if (availableProducts.length === 0) {
+                    noRecordMessage.style.display = 'block';
                 } else {
-                    noRecordMessage.style.display = 'none'; // Ocultar mensaje si hay registros
-                    for (let i = 0; i < products.length; i++) {
-                        const nombre = products[i].getElementsByTagName('nombre')[0].textContent;
-                        const precio = products[i].getElementsByTagName('precio')[0].textContent;
-                        const cantidad = products[i].getElementsByTagName('cantidad')[0].textContent;
-                        const unidad = products[i].getElementsByTagName('unidad')[0].textContent;
+                    noRecordMessage.style.display = 'none';
+                    for (let i = 0; i < availableProducts.length; i++) {
+                        const id = availableProducts[i].getElementsByTagName('id')[0]?.textContent || i;
+                        const nombre = availableProducts[i].getElementsByTagName('nombre')[0].textContent;
+                        const precioBase = parseFloat(availableProducts[i].getElementsByTagName('precio')[0].textContent);
+                        
+                        /* ==========================================================================
+                           CÓDIGO PARA AGREGAR NUEVOS PRODUCTOS O IMAGEN:
+                           Puedes copiar este bloque de estructura `card` para añadir más productos estáticos.
+                           ========================================================================== */
+                        let imagenUrl = "Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png";
+                        if (nombre.toLowerCase().includes('agroraise')) {
+                            imagenUrl = "Imagenes/agroraise.jpg";
+                        } else if (nombre.toLowerCase().includes('zinc')) {
+                            imagenUrl = "Imagenes/veintizinc.jpg";
+                        }
 
-                        const item = document.createElement('div');
-                        item.className = 'product-item';
-                        item.innerHTML = `
-                            <div class="checkbox-container">
-                                <input type="checkbox" id="product-${i}">
-                                <strong>${nombre}</strong> - $${parseFloat(precio).toFixed(2)} 
-                                <span>(Cantidad: ${cantidad} ${unidad})</span>
-                                <button class="edit-btn" onclick="openEditModal(${i})" style="display: none;">Editar</button>
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
+                        card.innerHTML = `
+                            <div>
+                                <div class="product-img-container">
+                                    <img src="${imagenUrl}" alt="${nombre}" onerror="this.src='Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png'">
+                                </div>
+                                <h4>${nombre}</h4>
+                                <div class="price" id="price-${id}">$${precioBase.toFixed(2)}</div>
+                                
+                                <!-- Selector de Presentación (Caja 1kg vs 15kg) -->
+                                <div class="selector-group">
+                                    <label>Presentación:</label>
+                                    <select id="pres-${id}" onchange="cambiarPresentacion('${id}', ${precioBase})">
+                                        <option value="1kg">Caja de 1kg (1kg neto)</option>
+                                        <option value="15kg" selected>Presentación 15kg</option>
+                                    </select>
+                                </div>
+
+                                <!-- Botones de Cantidad (+ y -) -->
+                                <div class="selector-group">
+                                    <label>Cantidad:</label>
+                                    <div class="quantity-control">
+                                        <button onclick="cambiarCant('${id}', -1)">-</button>
+                                        <span id="qty-${id}">1</span>
+                                        <button onclick="cambiarCant('${id}', 1)">+</button>
+                                    </div>
+                                </div>
                             </div>
+
+                            <button class="btn-add-cart" onclick="agregarAlCarrito('${id}', '${nombre}', ${precioBase})">
+                                <i class="fas fa-cart-plus"></i> Agregar
+                            </button>
                         `;
-                        listaProductos.appendChild(item);
+                        /* ========================================================================== */
+
+                        listaProductos.appendChild(card);
                     }
                 }
             })
             .catch(error => {
                 console.error('Error al cargar productos:', error);
+                document.getElementById('no-record-message').style.display = 'block';
+                document.getElementById('no-record-message').textContent = 'Error al conectar con la base de datos de productos.';
             });
         }
 
+        // Modificar precio según la presentación seleccionada
+        function cambiarPresentacion(id, precioBase) {
+            const select = document.getElementById(`pres-${id}`);
+            const priceEl = document.getElementById(`price-${id}`);
+            let precioFinal = precioBase;
 
-        // Función para buscar productos
-document.getElementById('search-btn').onclick = function() {
-    const nombre = document.getElementById('search-nombre').value.toLowerCase();
-    const precio = document.getElementById('search-precio').value;
-    const unidad = document.getElementById('search-unidad').value;
-
-    // Filtrar los productos basados en los criterios de búsqueda
-    const filteredProducts = Array.from(products).filter(product => {
-        const prodNombre = product.getElementsByTagName('nombre')[0].textContent.toLowerCase();
-        const prodPrecio = product.getElementsByTagName('precio')[0].textContent;
-        const prodUnidad = product.getElementsByTagName('unidad')[0].textContent;
-
-        const nombreMatch = nombre ? prodNombre.includes(nombre) : true;
-        const precioMatch = precio ? prodPrecio <= precio : true;
-        const unidadMatch = unidad ? prodUnidad === unidad : true;
-
-        return nombreMatch && precioMatch && unidadMatch;
-    });
-
-    const listaProductos = document.getElementById('product-list');
-    listaProductos.innerHTML = ''; // Limpiar lista antes de mostrar resultados
-
-    // Crear los elementos de producto filtrado
-    filteredProducts.forEach((product, i) => {
-        const nombre = product.getElementsByTagName('nombre')[0].textContent;
-        const precio = product.getElementsByTagName('precio')[0].textContent;
-        const cantidad = product.getElementsByTagName('cantidad')[0].textContent;
-        const unidad = product.getElementsByTagName('unidad')[0].textContent;
-
-        const item = document.createElement('div');
-        item.className = 'product-item';
-        item.innerHTML = `
-            <div class="checkbox-container">
-                <input type="checkbox" id="product-${i}">
-                <strong>${nombre}</strong> - $${parseFloat(precio).toFixed(2)} 
-                <span>(Cantidad: ${cantidad} ${unidad})</span>
-                <button class="edit-btn" onclick="openEditModal('${product.getElementsByTagName('id')[0].textContent}')">Editar</button>
-            </div>`;
-        listaProductos.appendChild(item);
-    });
-
-    // Mostrar mensaje si no hay resultados
-    document.getElementById('no-record-message').style.display = filteredProducts.length === 0 ? 'block' : 'none';
-};
-
-
-        // Añadir nuevo producto
-        function addProduct() {
-            const nombre = document.getElementById('nombre').value;
-            const precio = document.getElementById('precio').value;
-            const cantidad = document.getElementById('cantidad').value;
-            const unidad = document.getElementById('unidad').value;
-
-            fetch('agregar_productos.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/xml',
-                },
-                body: `<producto>
-                          <nombre>${nombre}</nombre>
-                          <precio>${precio}</precio>
-                          <cantidad>${cantidad}</cantidad>
-                          <unidad>${unidad}</unidad>
-                       </producto>`,
-            })
-            .then(response => response.text())
-            .then(result => {
-                if (result.includes('<success>true</success>')) {
-                    alert('Producto agregado con éxito');
-                    resetAddButton(); // Reiniciar botón de agregar
-                    document.getElementById('add-product-modal').style.display = 'none'; // Cerrar modal
-                    cargarProductos(); // Recargar lista de productos
-                    limpiarFormulario(); // Limpiar formulario
-                } else {
-                    alert('Error al agregar el producto');
-                }
-            });
-        }
-
-        // Limpiar el formulario de agregar producto
-        function limpiarFormulario() {
-            document.getElementById('nombre').value = '';
-            document.getElementById('precio').value = '';
-            document.getElementById('cantidad').value = '';
-            document.getElementById('unidad').value = 'kilos';
-        }
-
-        // Mostrar/Ocultar checkboxes
-        document.getElementById('delete-products-btn').onclick = function() {
-            const deleteConfirmation = document.getElementById('delete-confirmation');
-            const productList = document.getElementById('product-list');
-
-            if (deleteConfirmation.style.display === 'none') {
-                deleteConfirmation.style.display = 'flex'; // Mostrar
-                productList.querySelectorAll('.checkbox-container').forEach(container => {
-                    container.querySelector('input[type="checkbox"]').style.display = 'inline'; // Mostrar checkboxes
-                });
+            if (select.value === '1kg') {
+                precioFinal = precioBase / 15; // Estimado proporcional o ajusta tu lógica de precio por 1kg
             } else {
-                deleteConfirmation.style.display = 'none'; // Ocultar
-                productList.querySelectorAll('.checkbox-container').forEach(container => {
-                    container.querySelector('input[type="checkbox"]').style.display = 'none'; // Ocultar checkboxes
-                    container.querySelector('input[type="checkbox"]').checked = false; // Desmarcar
+                precioFinal = precioBase; // Presentación 15kg
+            }
+            priceEl.textContent = `$${precioFinal.toFixed(2)}`;
+        }
+
+        // Control de cantidad con botones + y -
+        function cambiarCant(id, cambio) {
+            const qtySpan = document.getElementById(`qty-${id}`);
+            let actual = parseInt(qtySpan.textContent) + cambio;
+            if (actual < 1) actual = 1;
+            qtySpan.textContent = actual;
+        }
+
+        function agregarAlCarrito(id, nombre, precioBase) {
+            const select = document.getElementById(`pres-${id}`);
+            const presentacion = select.value;
+            const cantidadSeleccionada = parseInt(document.getElementById(`qty-${id}`).textContent);
+            
+            let precioUnitario = precioBase;
+            let unidadTexto = 'Presentación 15kg';
+
+            if (presentacion === '1kg') {
+                precioUnitario = precioBase / 15;
+                unidadTexto = 'Caja 1kg';
+            }
+
+            const cartId = `${id}-${presentacion}`;
+            const index = carrito.findIndex(item => item.cartId === cartId);
+
+            if (index > -1) {
+                carrito[index].cantidad += cantidadSeleccionada;
+            } else {
+                carrito.push({
+                    cartId,
+                    id,
+                    nombre: `${nombre} (${unidadTexto})`,
+                    precio: precioUnitario,
+                    cantidad: cantidadSeleccionada,
+                    unidad: presentacion === '1kg' ? 'cajas' : 'pzas'
                 });
             }
-        };
 
-        // Confirmar eliminación de productos seleccionados
-        function confirmDeleteProducts() {
-            const checkboxes = document.querySelectorAll('.product-item input[type="checkbox"]');
-            const idsToDelete = [];
+            // Resetear cantidad en pantalla a 1
+            document.getElementById(`qty-${id}`).textContent = '1';
 
-            checkboxes.forEach((checkbox, index) => {
-                if (checkbox.checked) {
-                    const productId = products[index].getElementsByTagName('id')[0].textContent; // Asegúrate de que el ID esté disponible
-                    idsToDelete.push(productId);
-                }
+            actualizarContadorCarrito();
+            renderizarCarrito();
+        }
+
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarContadorCarrito();
+            renderizarCarrito();
+        }
+
+        function actualizarContadorCarrito() {
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            document.getElementById('cart-counter').textContent = totalItems;
+        }
+
+        function renderizarCarrito() {
+            const container = document.getElementById('cart-items-container');
+            const totalVal = document.getElementById('cart-total-val');
+            
+            container.innerHTML = '';
+
+            if (carrito.length === 0) {
+                container.innerHTML = `<div class="empty-cart-msg">Tu carrito está vacío</div>`;
+                totalVal.textContent = '$0.00';
+                return;
+            }
+
+            let subtotalGeneral = 0;
+
+            carrito.forEach((item, index) => {
+                const totalItem = item.precio * item.cantidad;
+                subtotalGeneral += totalItem;
+
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <div>
+                        <strong>${item.nombre}</strong><br>
+                        <small style="color:#666">${item.cantidad} ${item.unidad} x $${item.precio.toFixed(2)}</small>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-weight:600;">$${totalItem.toFixed(2)}</span>
+                        <button class="btn-remove" onclick="eliminarDelCarrito(${index})" title="Eliminar"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                container.appendChild(div);
             });
 
-            if (idsToDelete.length > 0) {
-                fetch('eliminar_productos.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/xml',
-                    },
-                    body: `<productos>${idsToDelete.map(id => `<id>${id}</id>`).join('')}</productos>`,
-                })
-                .then(response => response.text())
-                .then(result => {
-                    if (result.includes('<success>true</success>')) {
-                        alert('Productos eliminados con éxito');
-                        cargarProductos(); // Recargar lista de productos
-                    } else {
-                        alert('Error al eliminar productos');
-                    }
-                });
-            } else {
-                alert('No se seleccionó ningún producto para eliminar.');
+            totalVal.textContent = `$${subtotalGeneral.toFixed(2)}`;
+        }
+
+        function procederAlTicket() {
+            if (carrito.length === 0) {
+                alert('Agrega al menos un producto al carrito para proceder.');
+                return;
             }
+
+            const ticketData = carrito.map(item => ({
+                id: item.id,
+                nombre: item.nombre,
+                precio: item.precio,
+                cantidad: item.cantidad,
+                unidad: item.unidad
+            }));
+
+            sessionStorage.setItem('ticketData', JSON.stringify(ticketData));
+            window.location.href = 'ticket.html';
         }
 
-        // Función para abrir modal de edición de producto usando el ID del producto
-function openEditModal(productId) {
-    // Buscar el producto por su ID único
-    const product = Array.from(products).find(p => p.getElementsByTagName('id')[0].textContent === productId);
-    
-    if (!product) {
-        alert('Realiza una busqueda para editar');
-        return;
-    }
-
-    const nombre = product.getElementsByTagName('nombre')[0].textContent;
-    const precio = product.getElementsByTagName('precio')[0].textContent;
-    const cantidad = product.getElementsByTagName('cantidad')[0].textContent;
-    const unidad = product.getElementsByTagName('unidad')[0].textContent;
-
-    // Llenar los campos del formulario con los valores actuales del producto
-    document.getElementById('nombre').value = nombre;
-    document.getElementById('precio').value = precio;
-    document.getElementById('cantidad').value = cantidad;
-    document.getElementById('unidad').value = unidad;
-
-    // Cambiar el botón de añadir a un botón de actualizar
-    const addButton = document.querySelector('#add-product-modal .btn');
-    addButton.innerText = 'Actualizar Producto';
-    addButton.onclick = function() {
-        updateProduct(productId); // Pasar el ID del producto al actualizar
-    };
-
-    // Mostrar el modal
-    document.getElementById('add-product-modal').style.display = 'flex';
-}
-
-        // Actualizar producto usando su ID
-function updateProduct(productId) {
-    const nombre = document.getElementById('nombre').value;
-    const precio = document.getElementById('precio').value;
-    const cantidad = document.getElementById('cantidad').value;
-    const unidad = document.getElementById('unidad').value;
-
-    fetch('editar_productos.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/xml',
-        },
-        body: `<producto>
-                  <id>${productId}</id>
-                  <nombre>${nombre}</nombre>
-                  <precio>${precio}</precio>
-                  <cantidad>${cantidad}</cantidad>
-                  <unidad>${unidad}</unidad>
-               </producto>`,
-    })
-    .then(response => response.text())
-    .then(result => {
-        if (result.includes('<success>true</success>')) {
-            alert('Producto actualizado con éxito');
-            resetAddButton(); // Reiniciar botón de agregar
-            document.getElementById('add-product-modal').style.display = 'none'; // Cerrar modal
-            cargarProductos(); // Recargar lista de productos
-        } else {
-            alert('Error al actualizar el producto');
-        }
-    });
-}
-
-        // Cargar productos al inicio
         document.addEventListener('DOMContentLoaded', cargarProductos);
     </script>
 </body>

@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8"> <!-- Configura la codificación de caracteres -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace que la página sea adaptable a dispositivos móviles -->
-    <title>AGRONOMEX 🌱</title> 
+    <title>AGRONO-MMERCE 🌱</title> 
     <link rel="stylesheet" href="hojadeestiloslogin.css">
     <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png"> <!-- Icono de la página -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!-- Carga los iconos como 'module' -->
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!-- Carga los iconos para navegadores antiguos -->
 </head>
-<body onload="mueveReloj()"> <!-- Ejecuta la función mueveReloj() al cargar la página -->
 
 <div class="overlay"></div> <!-- Capa de color verde translúcido -->
 
 <div class="wrapper">
-    <h1>AGRONOMEX</h1>
+    <h1>AGRONO-MMERCE</h1>
 
     <div class="visit-counter">
         <?php
@@ -53,30 +52,8 @@
     </form>
 </div>
 
-<div class="reloj">
-    <h2>HORA REAL:</h2> <!-- Título de la sección de la hora -->
-    <form name="form_reloj">
-        <input type="text" name="reloj" size="10" style="background-color: transparent; color: #fff; font-family: Verdana, Arial, Helvetica; font-size: 25px; text-align: left;" readonly> <!-- Campo para mostrar la hora actual -->
-    </form>
-</div>
 
 <script>
-    function mueveReloj() {
-        let momentoActual = new Date(); // Obtiene la fecha y hora actual
-        let hora = momentoActual.getHours(); // Obtiene la hora actual
-        let minuto = momentoActual.getMinutes(); // Obtiene los minutos actuales
-        let segundo = momentoActual.getSeconds(); // Obtiene los segundos actuales
-
-        if (segundo < 10) segundo = "0" + segundo; // Añade un cero delante si es necesario
-        if (minuto < 10) minuto = "0" + minuto; // Añade un cero delante si es necesario
-        if (hora < 10) hora = "0" + hora; // Añade un cero delante si es necesario
-
-        let horaImprimible = hora + " : " + minuto + " : " + segundo; // Formatea la hora para mostrarla
-        document.forms['form_reloj'].elements['reloj'].value = horaImprimible; // Muestra la hora en el campo correspondiente
-
-        setTimeout(mueveReloj, 1000); // Actualiza la hora cada segundo
-    }
-
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
         let usuario = document.getElementById("username").value;

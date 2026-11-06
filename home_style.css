@@ -7,12 +7,12 @@ body {
 
 .main-title {
     position: relative;
-    background-image:url("Imagenes/fbd071a2-cfc2-4d31-81c9-73a813e58978.jpg");
+    background-image:url("Imagenes/fondonv.jpeg");
     background-size: cover; /* Ajustar la imagen al tamaño del contenedor */
     background-repeat: no-repeat; /* Evitar que la imagen se repita */
     color: white; /* Color del texto */
     text-align: center; /* Centrado del texto */
-    padding: 70px; /* Espaciado alrededor del texto */
+    padding: 70px; /* Espaciado alrededor desl texto */
     font-size: 3em; /* Tamaño de fuente */
 }
 
