@@ -1,3 +1,9 @@
+<?php
+session_start();
+// Opcional: Si quieres limpiar la sesión al entrar a la pantalla de login para asegurar el flujo de invitado:
+// session_unset();
+// session_destroy();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,26 +14,39 @@
     <link rel="icon" href="Imagenes/WhatsApp_Image_2024-06-17_at_9.00.39_PM-removebg-preview.png"> <!-- Icono de la página -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!-- Carga los iconos como 'module' -->
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!-- Carga los iconos para navegadores antiguos -->
+    <style>
+        /* Estilo para el botón de volver al home para que combine con el diseño */
+        .btn-home {
+            width: 100%;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            outline: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            margin-top: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-home:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
 </head>
+<body>
 
 <div class="overlay"></div> <!-- Capa de color verde translúcido -->
 
 <div class="wrapper">
     <h1>AGRONO-MMERCE</h1>
 
-    <div class="visit-counter">
-        <?php
-            $archivo = 'contador.txt'; // asigna el nombre del archivo 'contador.txt' a la variable $archivo, que se utiliza para guardar el número de visitas
-            if(file_exists($archivo)){
-                $contador = file_get_contents($archivo); // Lee el número actual de visitas
-                $contador++; // cada vez que ingresemos a la pagina el contador de visitas se incrementara en 1
-            } else {
-                $contador = 1; // Inicializa el contador si no existe el archivo
-            }
-            file_put_contents($archivo, $contador); // Guarda el nuevo número de visitas
-            echo "Número de visitas: ". $contador . " veces."; // Muestra el número de visitas
-        ?>
-    </div>
+   
 
     <form name="login" id="loginForm"> <!-- Formulario de inicio de sesión -->
         <div class="input-box">
@@ -49,6 +68,9 @@
             <a href="registrate1.php">Regístrate aquí</a> <!-- Enlace para registrarse -->
         </div>
         <button type="submit" class="btn">Login</button> <!-- Botón de inicio de sesión -->
+        
+        <!-- Botón para volver al home destruyendo sesión activa por seguridad -->
+        <a href="cerrar_sesion_invitado.php" class="btn-home">Volver al Home</a>
     </form>
 </div>
 
